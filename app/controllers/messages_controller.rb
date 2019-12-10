@@ -3,7 +3,14 @@ class MessagesController < ApplicationController
 
   # GET /messages
   def index
-    @messages = Message.all
+    @messages = Message
+      .joins(:chat)
+      .where(
+        chats: {
+          number: params[:chat_number],
+          application: Application.find_by(token: params[:application_token]),
+        },
+      )
 
     render json: @messages
   end
@@ -15,23 +22,36 @@ class MessagesController < ApplicationController
 
   # POST /messages
   def create
-    @message = Message.new(message_params)
-
-    if @message.save
-      render json: @message, status: :created, location: @message
-    else
-      render json: @message.errors, status: :unprocessable_entity
-    end
+    chat = Chat
+      .joins(:application)
+      .find_by(
+        number: params[:chat_number],
+        applications: { token: params[:application_token] },
+      )
+    puts chat
+    data = message_params
+    data["number"] = chat.messages.count + 1
+    @message = chat.messages.create(data)
+    render json: @message
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_message
-      @message = Message.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def message_params
-      params.require(:message).permit(:chat_id, :number, :message)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_message
+    @message = Message
+      .joins(:chat)
+      .where(
+        number: params[:number],
+        chats: {
+          number: params[:chat_number],
+          application: Application.find_by(token: params[:application_token]),
+        },
+      )
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def message_params
+    params.require(:message).permit(:text)
+  end
 end

@@ -28,7 +28,10 @@ class ChatsController < ApplicationController
   def set_chat
     @chat = Chat
       .joins(:application)
-      .find_by(number: params[:id], applications: { token: params[:application_token] })
+      .find_by(
+        number: params[:number],
+        applications: { token: params[:application_token] },
+      )
   end
 
   # Only allow a trusted parameter "white list" through.
