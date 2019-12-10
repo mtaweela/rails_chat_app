@@ -35,6 +35,13 @@ class MessagesController < ApplicationController
     render json: @message
   end
 
+  def search
+    search = params.permit(:search)["search"]
+    Message.reindex
+    messages = Message.search search, fields: [:text], match: :word_middle
+    render json: messages
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.

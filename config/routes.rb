@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "messages/search"
   resources :applications, param: :token do
     resources :chats, param: :number do
       resources :messages, param: :number
