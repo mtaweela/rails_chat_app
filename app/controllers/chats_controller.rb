@@ -24,20 +24,6 @@ class ChatsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /chats/1
-  def update
-    if @chat.update(chat_params)
-      render json: @chat
-    else
-      render json: @chat.errors, status: :unprocessable_entity
-    end
-  end
-
-  # DELETE /chats/1
-  def destroy
-    @chat.destroy
-  end
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_chat

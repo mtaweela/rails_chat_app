@@ -1,13 +1,6 @@
 class ApplicationsController < ApplicationController
   before_action :set_application, only: [:show, :update, :destroy]
 
-  # GET /applications
-  def index
-    @applications = Application.all
-
-    render json: @applications
-  end
-
   # GET /applications/1
   def show
     render json: @application
@@ -31,11 +24,6 @@ class ApplicationsController < ApplicationController
     else
       render json: @application.errors, status: :unprocessable_entity
     end
-  end
-
-  # DELETE /applications/1
-  def destroy
-    @application.destroy
   end
 
   private
