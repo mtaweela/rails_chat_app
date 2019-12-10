@@ -2,7 +2,7 @@ class CreateApplications < ActiveRecord::Migration[5.2]
   def change
     create_table :applications do |t|
       t.string :name
-      t.number :chat_count
+      t.integer :chat_count
 
       t.timestamps
     end
