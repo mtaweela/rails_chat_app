@@ -13,6 +13,25 @@ services:
     ports:
       - "3306:3306"
 
+  elasticsearch:
+    image: elasticsearch:7.5.0
+    container_name: es01
+    volumes:
+      - .:/app
+    environment:
+      - node.name=es01
+      - cluster.name=es-docker-cluster
+      - bootstrap.memory_lock=true
+      - discovery.seed_hosts=es01
+      - cluster.initial_master_nodes=es01
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ports:
+      - 9200:9200
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+
   web:
     build: .
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
