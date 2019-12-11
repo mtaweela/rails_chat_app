@@ -1,5 +1,6 @@
 version: '3'
 services:
+  # mysql
   db:
     image: mysql:5.7
     container_name: application_chat_app_mysql
@@ -13,6 +14,7 @@ services:
     ports:
       - "3306:3306"
 
+  # elastic search
   elasticsearch:
     image: elasticsearch:7.5.0
     container_name: es01
@@ -31,7 +33,19 @@ services:
       memlock:
         soft: -1
         hard: -1
+  
+  # redis
+  redis:
+    image: redis
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    container_name: chat_app_redis_cache
+    ports:
+      - '6379:6379'
+    volumes:
+      - 'redis_data:/bitnami/redis/data'
 
+  # rails app
   web:
     build: .
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
@@ -44,6 +58,9 @@ services:
     depends_on:
       - db
       - elasticsearch
+      - redis
 
 volumes:
   my-db:
+  redis_data:
+    driver: local
