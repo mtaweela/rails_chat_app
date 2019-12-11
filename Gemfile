@@ -16,6 +16,7 @@ gem 'elasticsearch-model'
 gem 'elasticsearch-rails'
 gem 'searchkick'
 # redis locker
+# https://github.com/einzige/redis-locker
 gem 'redis-locker'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.5'
