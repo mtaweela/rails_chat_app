@@ -15,11 +15,14 @@ class ChatsController < ApplicationController
 
   # POST /chats
   def create
-    application = Application.find_by(token: params[:application_token])
-    data = chat_params
-    data["number"] = application.chats.count + 1
-    @chat = application.chats.create(data)
-    render json: @chat
+    RedisLocker.new('chat_creation').run! { 
+      application = Application.find_by(token: params[:application_token])
+      data = chat_params
+      data["number"] = application.chats.count + 1
+      @chat = application.chats.create(data)
+      render json: @chat
+    }
+
   end
 
   private

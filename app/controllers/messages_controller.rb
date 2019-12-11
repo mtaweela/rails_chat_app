@@ -22,17 +22,18 @@ class MessagesController < ApplicationController
 
   # POST /messages
   def create
-    chat = Chat
-      .joins(:application)
-      .find_by(
-        number: params[:chat_number],
-        applications: { token: params[:application_token] },
-      )
-    puts chat
-    data = message_params
-    data["number"] = chat.messages.count + 1
-    @message = chat.messages.create(data)
-    render json: @message
+    RedisLocker.new('message_creation').run! { 
+      chat = Chat
+        .joins(:application)
+        .find_by(
+          number: params[:chat_number],
+          applications: { token: params[:application_token] },
+        )
+      data = message_params
+      data["number"] = chat.messages.count + 1
+      @message = chat.messages.create(data)
+      render json: @message
+    }
   end
 
   def search
