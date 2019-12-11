@@ -15,6 +15,8 @@ gem 'active_model_serializers'
 gem 'elasticsearch-model'
 gem 'elasticsearch-rails'
 gem 'searchkick'
+# redis locker
+gem 'redis-locker'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
