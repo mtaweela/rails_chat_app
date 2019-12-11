@@ -18,6 +18,8 @@ gem 'searchkick'
 # redis locker
 # https://github.com/einzige/redis-locker
 gem 'redis-locker'
+# whenever
+gem 'whenever'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production

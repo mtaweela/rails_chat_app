@@ -45,6 +45,15 @@ services:
     volumes:
       - 'redis_data:/bitnami/redis/data'
 
+  # cron jobs
+  cron_job:
+    build: .
+    command: cron -f
+    depends_on:
+      - db
+      - elasticsearch
+      - redis
+
   # rails app
   web:
     build: .
