@@ -5,7 +5,7 @@ class Chat < ApplicationRecord
   def self.update_message_count
     ActiveRecord::Base.transaction do
       Chat.all.each do |chat|
-        chat.update(chat_count: chat.messages.count)
+        chat.update(messages_count: chat.messages.count)
       end
     end
   end
